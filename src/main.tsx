@@ -16,7 +16,7 @@ Devvit.addMenuItem({
 
     const subreddit = await reddit.getCurrentSubreddit();
     const post = await reddit.submitPost({
-      title: 'My devvit post',
+      title: 'Today\'s Misfortunes',
       subredditName: subreddit.name,
       // The preview appears while the post loads
       preview: (
@@ -34,22 +34,25 @@ Devvit.addCustomPostType({
   name: 'Experience Post',
   height: 'regular',
   render: (_context) => {
-    const [counter, setCounter] = useState(0);
-
     return (
       <vstack height="100%" width="100%" gap="medium" alignment="center middle">
         <image
-          url="logo.png"
-          description="logo"
+          url="Misfortunes_Icon_Transparent.png"
+          description="Icon"
           imageHeight={256}
           imageWidth={256}
           height="48px"
           width="48px"
         />
-        <text size="large">{`Click counter: ${counter}`}</text>
-        <button appearance="primary" onPress={() => setCounter((counter) => counter + 1)}>
-          Click me!
-        </button>
+        <text size="xxlarge">{'Misfortunes'}</text>
+        <hstack gap="medium">
+          <button appearance="primary">
+            Create
+          </button>
+          <button appearance="primary">
+            Open
+          </button>
+        </hstack>
       </vstack>
     );
   },
