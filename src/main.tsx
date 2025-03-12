@@ -5,6 +5,70 @@ Devvit.configure({
   redditAPI: true,
 });
 
+type PageProps = {
+  setPage: (page: string) => void;
+}
+
+const HomePage = ({ setPage }: PageProps) => (
+  <vstack height="100%" width="100%" gap="medium" alignment="center middle">
+    <image
+      url="Misfortunes_Icon_Transparent.png"
+      description="Icon"
+      imageHeight={256}
+      imageWidth={256}
+      height="48px"
+      width="48px"
+    />
+    <text size="xxlarge">{'Misfortunes'}</text>
+    <hstack gap="medium">
+      <button appearance="primary" onPress={() => setPage('create')}>
+        Create
+      </button>
+      <button appearance="primary" onPress={() => setPage('open')}>
+        Open
+      </button>
+    </hstack>
+  </vstack>
+);
+
+const CreatePage = ({ setPage }: PageProps) => (
+  <vstack height="100%" width="100%" gap="medium" alignment="center middle">
+    <image
+      url="Misfortunes_Icon_Transparent.png"
+      description="Icon"
+      imageHeight={256}
+      imageWidth={256}
+      height="48px"
+      width="48px"
+    />
+    <text size="xxlarge">{'Create a Misfortune'}</text>
+    <hstack gap="medium">
+      <button appearance="primary" onPress={() => setPage('home')}>
+        Home
+      </button>
+    </hstack>
+  </vstack>
+);
+
+const OpenPage = ({ setPage }: PageProps) => (
+<vstack height="100%" width="100%" gap="medium" alignment="center middle">
+    <image
+      url="Misfortunes_Icon_Transparent.png"
+      description="Icon"
+      imageHeight={256}
+      imageWidth={256}
+      height="48px"
+      width="48px"
+    />
+    <text size="xxlarge">{'Open a Misfortune'}</text>
+    <hstack gap="medium">
+      <button appearance="primary" onPress={() => setPage('home')}>
+        Home
+      </button>
+    </hstack>
+  </vstack>
+);
+
 // Add a menu item to the subreddit menu for instantiating the new experience post
 Devvit.addMenuItem({
   label: 'Add my post',
@@ -21,7 +85,7 @@ Devvit.addMenuItem({
       // The preview appears while the post loads
       preview: (
         <vstack height="100%" width="100%" alignment="middle center">
-          <text size="large">Loading ...</text>
+          <text size="large">Loading...</text>
         </vstack>
       ),
     });
@@ -31,29 +95,31 @@ Devvit.addMenuItem({
 
 // Add a post type definition
 Devvit.addCustomPostType({
-  name: 'Experience Post',
+  name: 'Misfortunes',
   height: 'regular',
   render: (_context) => {
+    //const { useState } = _context;
+    const [page, setPage] = useState('home');
+
+    let currentPage;
+    switch (page) {
+      case 'home':
+        currentPage = <HomePage setPage={setPage} />;
+        break;
+      case 'create':
+        currentPage = <CreatePage setPage={setPage} />;
+        break;
+      case 'open':
+        currentPage = <OpenPage setPage={setPage} />;
+        break;
+      default:
+        currentPage = <HomePage setPage={setPage} />;
+    }
+    
     return (
-      <vstack height="100%" width="100%" gap="medium" alignment="center middle">
-        <image
-          url="Misfortunes_Icon_Transparent.png"
-          description="Icon"
-          imageHeight={256}
-          imageWidth={256}
-          height="48px"
-          width="48px"
-        />
-        <text size="xxlarge">{'Misfortunes'}</text>
-        <hstack gap="medium">
-          <button appearance="primary">
-            Create
-          </button>
-          <button appearance="primary">
-            Open
-          </button>
-        </hstack>
-      </vstack>
+      <blocks>
+        {currentPage}
+      </blocks>
     );
   },
 });
